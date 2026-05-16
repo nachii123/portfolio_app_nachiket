@@ -18,7 +18,7 @@ const timeline = [
     dotColor: '#a855f7',
   },
   {
-    period: '2020 — 2022',
+    period: '2024 — 2025',
     title: 'Android Developer',
     desc: 'Crafting performance-driven Android applications with Kotlin. Focused on Jetpack Compose and Material Design 3 implementations.',
     tags: [{ label: 'KOTLIN', color: 'orange' }, { label: 'COROUTINES', color: 'purple' }],
