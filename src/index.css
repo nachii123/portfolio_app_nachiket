@@ -1,13 +1,174 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --bg-primary: #080b12;
+  --bg-secondary: #0d1117;
+  --bg-card: #111520;
+  --bg-card-hover: #161b2a;
+  --cyan: #00e5ff;
+  --cyan-dim: rgba(0, 229, 255, 0.1);
+  --cyan-border: rgba(0, 229, 255, 0.3);
+  --purple: #7c3aed;
+  --purple-light: #a855f7;
+  --gradient: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #8892a4;
+  --text-muted: #4a5568;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-cyan: rgba(0, 229, 255, 0.2);
+  --font-mono: 'Space Mono', monospace;
+  --font-sans: 'Space Grotesk', sans-serif;
 }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; outline: none; }
+input, textarea { outline: none; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--cyan-border); border-radius: 2px; }
+
+/* On mobile: bottom nav takes 80px */
+.app { min-height: 100vh; padding-bottom: 80px; }
+
+/* On desktop: no bottom nav */
+@media (min-width: 1024px) {
+  .app { padding-bottom: 0; }
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 1024px) {
+  .page { padding: 0 60px; }
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-cyan);
+  opacity: 0.5;
+}
+
+.divider { height: 1px; background: var(--border); margin: 28px 0; }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid var(--border-cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+}
+
+.tag.orange {
+  border-color: rgba(251,146,60,0.35);
+  color: #fb923c;
+  background: rgba(251,146,60,0.1);
+}
+
+.tag.purple {
+  border-color: rgba(168,85,247,0.35);
+  color: var(--purple-light);
+  background: rgba(168,85,247,0.1);
+}
+
+.tag.green {
+  border-color: rgba(52,211,153,0.35);
+  color: #34d399;
+  background: rgba(52,211,153,0.1);
+}
+
+.btn-gradient {
+  width: 100%;
+  padding: 15px;
+  background: var(--gradient);
+  color: white;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 50px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn-gradient:hover { opacity: 0.88; transform: translateY(-1px); }
+
+.btn-outline {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  color: white;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.btn-outline:hover { border-color: var(--cyan-border); background: var(--cyan-dim); }
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  animation: pulse 2s infinite;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px var(--cyan);
+}
+
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.fade-in { animation: fadeInUp 0.45s ease forwards; }

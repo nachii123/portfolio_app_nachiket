@@ -1,0 +1,191 @@
+/* ── QR Gallery wrapper ─────────────────────────────────────────── */
+.qr-gallery {
+  position: relative;
+  margin-top: 36px;
+  /* extra bottom room for hint dots */
+  padding-bottom: 24px;
+}
+
+/* ── Edge fade vignettes ─────────────────────────────────────────── */
+.qr-edge {
+  position: absolute;
+  top: 0;
+  bottom: 24px;
+  width: 56px;
+  z-index: 2;
+  pointer-events: none;
+}
+.qr-edge--left  { left: 0;  background: linear-gradient(to right, var(--bg-primary) 30%, transparent); }
+.qr-edge--right { right: 0; background: linear-gradient(to left,  var(--bg-primary) 30%, transparent); }
+
+/* ── Scroll track ────────────────────────────────────────────────── */
+.qr-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  /* horizontal padding reveals edge fades nicely */
+  padding: 16px 24px 20px;
+  scrollbar-width: none;
+}
+.qr-track::-webkit-scrollbar { display: none; }
+.qr-track:active { cursor: grabbing; }
+
+/* ── Individual card ─────────────────────────────────────────────── */
+.qr-card {
+  flex-shrink: 0;
+  position: relative;
+  width: 168px;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 229, 255, 0.12);
+  background: rgba(17, 21, 32, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    transform 0.32s cubic-bezier(0.34, 1.3, 0.64, 1),
+    box-shadow 0.32s ease,
+    border-color 0.32s ease;
+  will-change: transform;
+}
+
+.qr-card:hover {
+  transform: translateY(-10px) scale(1.04);
+  border-color: rgba(0, 229, 255, 0.38);
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.65),
+    0 0  28px rgba(0, 229, 255, 0.10),
+    0 0  60px rgba(124, 58, 237, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ── Card image ──────────────────────────────────────────────────── */
+.qr-card-img {
+  width: 100%;
+  display: block;
+  height: 364px;
+  object-fit: cover;
+  object-position: top center;
+  /* prevent flicker on drag */
+  pointer-events: none;
+}
+
+/* ── Bottom label overlay ────────────────────────────────────────── */
+.qr-card-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 12px 10px;
+  background: linear-gradient(to top, rgba(8, 11, 18, 0.97) 40%, transparent);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-align: center;
+  transition: color 0.25s;
+}
+.qr-card:hover .qr-card-label { color: var(--cyan); }
+
+/* ── Soft glow layer (shows on hover) ───────────────────────────── */
+.qr-card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
+  transition: opacity 0.35s ease;
+}
+.qr-card:hover .qr-card-glow { opacity: 1; }
+
+/* ── Navigation arrows ───────────────────────────────────────────── */
+.qr-nav {
+  position: absolute;
+  top: calc(50% - 12px); /* offset hint dots */
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 21, 32, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-cyan);
+  color: var(--cyan);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s cubic-bezier(0.34, 1.3, 0.64, 1), background 0.2s;
+  cursor: pointer;
+}
+.qr-nav--show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.qr-nav--left  { left: 4px; }
+.qr-nav--right { right: 4px; }
+.qr-nav:hover {
+  background: rgba(0, 229, 255, 0.12);
+  transform: translateY(-50%) scale(1.12);
+}
+.qr-nav:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+/* ── Scroll hint dots ────────────────────────────────────────────── */
+.qr-hint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+}
+.qr-hint-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  opacity: 0.4;
+}
+.qr-hint-dot--pulse {
+  width: 20px;
+  border-radius: 2px;
+  background: var(--cyan);
+  opacity: 0.55;
+  animation: qr-pulse-bar 2.2s ease-in-out infinite;
+}
+
+@keyframes qr-pulse-bar {
+  0%, 100% { opacity: 0.55; width: 20px; }
+  50%       { opacity: 0.9;  width: 28px; }
+}
+
+/* ── Responsive sizes ────────────────────────────────────────────── */
+@media (min-width: 480px) {
+  .qr-card      { width: 185px; }
+  .qr-card-img  { height: 400px; }
+}
+
+@media (min-width: 768px) {
+  .qr-card      { width: 198px; }
+  .qr-card-img  { height: 428px; }
+  .qr-track     { padding: 20px 32px 24px; gap: 18px; }
+  .qr-edge      { width: 70px; }
+}
+
+@media (min-width: 1024px) {
+  .qr-card      { width: 210px; }
+  .qr-card-img  { height: 454px; }
+  .qr-track     { padding: 24px 40px 28px; gap: 20px; }
+  .qr-edge      { width: 80px; }
+  .qr-nav       { width: 38px; height: 38px; }
+}

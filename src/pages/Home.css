@@ -1,0 +1,290 @@
+/* ── Hero ── */
+.home-hero {
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+.home-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan);
+  border-radius: 20px;
+  padding: 6px 14px;
+  margin-bottom: 28px;
+}
+
+.home-status-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--cyan);
+  text-transform: uppercase;
+}
+
+.home-headline {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.home-headline-accent { color: var(--cyan); }
+
+.home-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 300px;
+  line-height: 1.65;
+  margin-bottom: 36px;
+}
+
+/* Profile visual (mobile) */
+.home-profile-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 36px;
+  height: 240px;
+}
+
+.home-profile-ring {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  border: 2px solid var(--border-cyan);
+  box-shadow: 0 0 50px rgba(0,229,255,0.1), 0 0 100px rgba(124,58,237,0.07);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.home-profile-img {
+  width: 100%;
+  height: 100%;
+}
+
+.home-profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.home-profile-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.home-profile-badge--arch {
+  left: 0;
+  top: 16px;
+  color: var(--cyan);
+  border-color: var(--border-cyan);
+}
+
+.home-profile-badge--ai {
+  right: 0;
+  bottom: 24px;
+  color: var(--purple-light);
+  border-color: rgba(168,85,247,0.3);
+}
+
+/* CTAs */
+.home-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.home-contact-link {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--cyan);
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
+}
+
+.home-contact-link:hover { opacity: 0.75; }
+
+/* ── Precision section ── */
+.home-precision {
+  padding-top: 8px;
+  padding-bottom: 32px;
+}
+
+.home-precision-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.home-precision-title {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.home-precision-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.home-precision-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.home-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.home-stat { padding: 16px; }
+
+.home-stat-value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.home-stat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ── Desktop layout ── */
+@media (min-width: 1024px) {
+  .home-hero {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  /* Two-column hero: text left, profile right */
+  .home-hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .home-headline {
+    font-size: 62px;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+
+  .home-sub {
+    font-size: 17px;
+    max-width: 420px;
+    margin-bottom: 44px;
+  }
+
+  /* Buttons row on desktop */
+  .home-ctas {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .home-ctas .btn-gradient {
+    width: auto;
+    padding: 14px 36px;
+    font-size: 13px;
+  }
+
+  .home-ctas .btn-outline {
+    width: auto;
+    padding: 14px 36px;
+    font-size: 13px;
+    margin-top: 0 !important;
+  }
+
+  .home-contact-link {
+    margin-top: 0;
+  }
+
+  /* Profile visual on desktop */
+  .home-profile-wrapper {
+    height: 400px;
+    margin-bottom: 0;
+  }
+
+  .home-profile-ring {
+    width: 300px;
+    height: 300px;
+  }
+
+  .home-profile-badge {
+    font-size: 10px;
+    padding: 9px 14px;
+  }
+
+  .home-profile-badge--arch {
+    left: 20px;
+    top: 40px;
+  }
+
+  .home-profile-badge--ai {
+    right: 20px;
+    bottom: 60px;
+  }
+
+  /* Precision section — two column */
+  .home-precision-desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    padding-top: 16px;
+    padding-bottom: 48px;
+  }
+
+  .home-precision-title { font-size: 38px; }
+
+  .home-precision-desc { font-size: 16px; max-width: 440px; }
+
+  .home-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .home-stat-value { font-size: 36px; }
+
+  .home-stat-label { font-size: 10px; }
+}

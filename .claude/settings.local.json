@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm list *)",
+      "Bash(npm install *)",
+      "Bash(npx react-scripts *)",
+      "WebFetch(domain:billostrift-website-app.onrender.com)",
+      "Bash(node capture-screenshots.js)"
+    ]
+  }
+}
