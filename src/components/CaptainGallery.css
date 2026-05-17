@@ -244,3 +244,7 @@
   .captain-orb--1   { width: 400px; height: 400px; }
   .captain-orb--2   { width: 320px; height: 320px; }
 }
+
+/* ── Zoom hint (shown on card hover) ────────────────────────────── */
+.captain-card:hover .lb-zoom-hint { opacity: 1; transform: scale(1); }
+.captain-card .lb-zoom-hint { top: 24px; }

@@ -294,3 +294,8 @@
   .sd-edge  { width: 85px; }
   .sd-nav   { width: 38px; height: 38px; }
 }
+
+/* ── Zoom hint (shown on card hover) ────────────────────────────── */
+.sd-card:hover .lb-zoom-hint  { opacity: 1; transform: scale(1); }
+.sd-card--desktop .lb-zoom-hint { top: 34px; }
+.sd-card--mobile  .lb-zoom-hint { top: 22px; }

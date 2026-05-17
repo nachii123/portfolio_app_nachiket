@@ -316,3 +316,8 @@
   .billo-edge  { width: 85px; }
   .billo-nav   { width: 38px; height: 38px; }
 }
+
+/* ── Zoom hint (shown on card hover) ────────────────────────────── */
+.billo-card:hover .lb-zoom-hint  { opacity: 1; transform: scale(1); }
+.billo-card--desktop .lb-zoom-hint { top: 34px; }
+.billo-card--mobile  .lb-zoom-hint { top: 22px; }

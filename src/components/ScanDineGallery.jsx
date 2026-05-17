@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import './ScanDineGallery.css';
+import Lightbox from './Lightbox';
 
 import imgHero         from '../assets/scandine/hero.png';
 import imgDashboard    from '../assets/scandine/section2.png';
@@ -27,8 +28,9 @@ export default function ScanDineGallery() {
   const trackRef   = useRef(null);
   const isInView   = useInView(sectionRef, { once: true, margin: '-60px' });
 
-  const [canLeft,  setCanLeft]  = useState(false);
-  const [canRight, setCanRight] = useState(true);
+  const [canLeft,     setCanLeft]     = useState(false);
+  const [canRight,    setCanRight]    = useState(true);
+  const [lightboxIdx, setLightboxIdx] = useState(null);
 
   // ── Arrow visibility ─────────────────────────────────────────────
   const updateArrows = useCallback(() => {
@@ -55,6 +57,7 @@ export default function ScanDineGallery() {
 
   // ── Mouse drag with momentum ─────────────────────────────────────
   const dragging     = useRef(false);
+  const wasDragged   = useRef(false);
   const originX      = useRef(0);
   const originScroll = useRef(0);
   const velX         = useRef(0);
@@ -64,6 +67,7 @@ export default function ScanDineGallery() {
 
   const onMouseDown = (e) => {
     dragging.current     = true;
+    wasDragged.current   = false;
     originX.current      = e.clientX;
     originScroll.current = trackRef.current.scrollLeft;
     lastX.current        = e.clientX;
@@ -76,6 +80,7 @@ export default function ScanDineGallery() {
 
   const onMouseMove = useCallback((e) => {
     if (!dragging.current) return;
+    if (Math.abs(e.clientX - originX.current) > 5) wasDragged.current = true;
     const now = Date.now();
     const dt  = Math.max(now - lastT.current, 1);
     velX.current  = (e.clientX - lastX.current) / dt;
@@ -155,6 +160,8 @@ export default function ScanDineGallery() {
           <motion.div
             key={screen.label}
             className={`sd-card sd-card--${screen.type}`}
+            style={{ cursor: 'zoom-in' }}
+            onClick={() => { if (!wasDragged.current) setLightboxIdx(i); }}
             initial={{ opacity: 0, y: 22 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.08 + i * 0.07, ease: 'easeOut' }}
@@ -197,11 +204,26 @@ export default function ScanDineGallery() {
               <span className="sd-label-text">{screen.label}</span>
             </div>
 
-            {/* Hover shine */}
             <div className="sd-shine" aria-hidden />
+            <div className="lb-zoom-hint">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+                <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+              </svg>
+            </div>
           </motion.div>
         ))}
       </div>
+
+      <AnimatePresence>
+        {lightboxIdx !== null && (
+          <Lightbox
+            images={SCREENS}
+            startIndex={lightboxIdx}
+            onClose={() => setLightboxIdx(null)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Live indicator */}
       <div className="sd-live-row" aria-hidden>

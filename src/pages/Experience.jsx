@@ -1,6 +1,17 @@
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import Footer from '../components/Footer';
 import './Experience.css';
+
+// ── EmailJS credentials ──────────────────────────────────────────────────────
+// 1. Sign up free at https://emailjs.com
+// 2. Add a Gmail service → copy the Service ID below
+// 3. Create an email template with variables: {{from_name}}, {{from_email}}, {{message}}
+//    Set "To Email" in the template to nachiket919156@gmail.com
+// 4. Copy the Template ID and your Public Key (Account → API Keys)
+const EJ_SERVICE  = 'YOUR_SERVICE_ID';
+const EJ_TEMPLATE = 'YOUR_TEMPLATE_ID';
+const EJ_KEY      = 'YOUR_PUBLIC_KEY';
 
 const timeline = [
   // {
@@ -31,10 +42,25 @@ export default function Experience() {
 
   const handleChange = e => setFormData(p => ({ ...p, [e.target.name]: e.target.value }));
 
-  const handleSubmit = e => {
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Message sent! I'll get back to you soon.");
-    setFormData({ name: '', email: '', project: '' });
+    setSending(true);
+    try {
+      await emailjs.send(
+        EJ_SERVICE,
+        EJ_TEMPLATE,
+        { from_name: formData.name, from_email: formData.email, message: formData.project },
+        EJ_KEY
+      );
+      alert("Message sent! I'll get back to you soon.");
+      setFormData({ name: '', email: '', project: '' });
+    } catch {
+      alert('Could not send message. Please email me directly at nachiket919156@gmail.com');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -117,17 +143,23 @@ export default function Experience() {
                     required
                   />
                 </div>
-                <button type="submit" className="btn-gradient" style={{ marginTop: 8 }}>
-                  INITIATE PROJECT
+                <button type="submit" className="btn-gradient" style={{ marginTop: 8 }} disabled={sending}>
+                  {sending ? 'SENDING...' : 'INITIATE PROJECT'}
                 </button>
               </form>
-              <button className="btn-outline experience-resume-btn">
+              <a
+                href="https://drive.google.com/file/d/1E9Y1wbTq5Pja0yPMF5bsmadnmGzWbWzm/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline experience-resume-btn"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}
+              >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: 8 }}>
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                   <polyline points="14 2 14 8 20 8"/>
                 </svg>
                 DOWNLOAD RESUME →
-              </button>
+              </a>
             </div>
           </div>
         </div>

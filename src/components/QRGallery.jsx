@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import './QRGallery.css';
+import Lightbox from './Lightbox';
 
 import imgHome      from '../assets/qr_dine_in/homeScreen.png';
 import imgHome2     from '../assets/qr_dine_in/homeScreen2.png';
@@ -33,11 +34,13 @@ export default function QRGallery() {
   const trackRef   = useRef(null);
   const isInView   = useInView(sectionRef, { once: true, margin: '-60px' });
 
-  const [canLeft,  setCanLeft]  = useState(false);
-  const [canRight, setCanRight] = useState(true);
+  const [canLeft,     setCanLeft]     = useState(false);
+  const [canRight,    setCanRight]    = useState(true);
+  const [lightboxIdx, setLightboxIdx] = useState(null);
 
   // Drag state refs (avoid re-renders)
   const dragging        = useRef(false);
+  const wasDragged      = useRef(false);
   const originX         = useRef(0);
   const originScroll    = useRef(0);
   const velX            = useRef(0);
@@ -77,6 +80,7 @@ export default function QRGallery() {
     lastX.current        = e.clientX;
     lastT.current        = Date.now();
     velX.current         = 0;
+    wasDragged.current   = false;
     if (rafId.current) cancelAnimationFrame(rafId.current);
     trackRef.current.style.userSelect = 'none';
     trackRef.current.style.cursor     = 'grabbing';
@@ -84,6 +88,7 @@ export default function QRGallery() {
 
   const onMouseMove = useCallback((e) => {
     if (!dragging.current) return;
+    if (Math.abs(e.clientX - originX.current) > 5) wasDragged.current = true;
     const now = Date.now();
     const dt  = Math.max(now - lastT.current, 1);
     velX.current  = (e.clientX - lastX.current) / dt;
@@ -163,6 +168,8 @@ export default function QRGallery() {
           <motion.div
             key={shot.label}
             className="qr-card"
+            style={{ cursor: 'zoom-in' }}
+            onClick={() => { if (!wasDragged.current) setLightboxIdx(i); }}
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.08 + i * 0.055, ease: 'easeOut' }}
@@ -175,6 +182,12 @@ export default function QRGallery() {
             />
             <div className="qr-card-label">{shot.label}</div>
             <div className="qr-card-glow" aria-hidden />
+            <div className="lb-zoom-hint">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+                <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+              </svg>
+            </div>
           </motion.div>
         ))}
       </div>
@@ -185,6 +198,16 @@ export default function QRGallery() {
         <span className="qr-hint-dot qr-hint-dot--pulse" />
         <span className="qr-hint-dot" />
       </div>
+
+      <AnimatePresence>
+        {lightboxIdx !== null && (
+          <Lightbox
+            images={SCREENSHOTS}
+            startIndex={lightboxIdx}
+            onClose={() => setLightboxIdx(null)}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

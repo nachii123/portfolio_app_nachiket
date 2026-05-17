@@ -26,7 +26,7 @@ export default function About() {
       {/* Header */}
       <section className="about-header page">
         <div className="section-label" style={{ marginBottom: 16 }}>ABOUT ME</div>
-        <h1 className="about-title">THE ARCHITECT</h1>
+        <h1 className="about-title">THE ENGINEER</h1>
         <div className="about-title-line" />
 
         {/* Desktop: two-column — bio left, terminal right */}
@@ -84,7 +84,7 @@ export default function About() {
               <div className="about-terminal-body">
                 <div className="about-terminal-line">
                   <span className="about-terminal-prompt">~</span>
-                  <span className="about-terminal-cmd"> node architect.js</span>
+                  <span className="about-terminal-cmd"> node run app.js</span>
                 </div>
                 <div className="about-terminal-line about-terminal-output">Initializing full-stack engine...</div>
                 <div className="about-terminal-line about-terminal-output">Loading AI modules... <span style={{ color: '#34d399' }}>✓</span></div>
