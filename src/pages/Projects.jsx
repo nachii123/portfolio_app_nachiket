@@ -5,9 +5,24 @@ import QRGallery from '../components/QRGallery';
 import CaptainGallery from '../components/CaptainGallery';
 import BilloGallery from '../components/BilloGallery';
 import ScanDineGallery from '../components/ScanDineGallery';
+import NubaeGallery from '../components/NubaeGallery';
 import './Projects.css';
 
 const projects = [
+  {
+    id: 0,
+    tags: [
+      { label: 'REACT.JS', color: '' },
+      { label: 'ECOMMERCE', color: 'green' },
+      { label: 'UI/UX', color: 'purple' },
+    ],
+    title: 'Nubae Skin Care Website',
+    desc: 'A polished skin care website built for customer orders, product discovery, and a clean buying journey. Designed to present the brand clearly and support smooth online purchases.',
+    image: 'ai-crm',
+    gradient: 'linear-gradient(135deg, #1a1120 0%, #0d1f24 100%)',
+    liveUrl: 'https://nubae-website.onrender.com/',
+    gallery: true,
+  },
   {
     id: 1,
     tags: [
@@ -131,7 +146,13 @@ function ProjectCard({ project }) {
         <h2 className="project-card-title">{project.title}</h2>
         <p className="project-card-desc">{project.desc}</p>
         <div className="project-card-actions">
-          <button className="btn-gradient project-btn">Live Demo</button>
+          {project.liveUrl ? (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+              <button className="btn-gradient project-btn">Live Demo</button>
+            </a>
+          ) : (
+            <button className="btn-gradient project-btn">Live Demo</button>
+          )}
           <button className="project-github-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
@@ -144,6 +165,49 @@ function ProjectCard({ project }) {
         <ProjectMockup type={project.image} />
       </div>
     </div>
+  );
+}
+
+function NubaeProjectCard({ project }) {
+  const ref      = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="project-card project-card--featured project-card--nubae"
+      initial={{ opacity: 0, y: 28 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
+      <div className="featured-glow nubae-featured-glow" aria-hidden />
+
+      <div className="featured-header">
+        <div className="featured-badge nubae-featured-badge">
+          <span className="nubae-badge-dot" />
+          <span>CLIENT PROJECT - LIVE</span>
+        </div>
+
+        <div className="project-card-tags" style={{ marginTop: 14 }}>
+          {project.tags.map(t => (
+            <span key={t.label} className={`tag ${t.color}`}>{t.label}</span>
+          ))}
+        </div>
+
+        <h2 className="project-card-title featured-title">{project.title}</h2>
+        <p className="project-card-desc">{project.desc}</p>
+
+        <div className="project-card-actions">
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+              <button className="btn-gradient nubae-live-btn">View Live Site</button>
+            </a>
+          )}
+        </div>
+      </div>
+
+      <NubaeGallery />
+    </motion.div>
   );
 }
 
@@ -429,9 +493,10 @@ export default function Projects() {
 
       <section className="projects-list page">
         {projects.map(p => {
-          if (p.id === 1) return <QRProjectCard       key={p.id} project={p} />;
-          if (p.id === 2) return <BilloProjectCard    key={p.id} project={p} />;
-          if (p.id === 4) return <CaptainProjectCard  key={p.id} project={p} />;
+          if (p.id === 0) return <NubaeProjectCard   key={p.id} project={p} />;
+          if (p.id === 1) return <QRProjectCard      key={p.id} project={p} />;
+          if (p.id === 2) return <BilloProjectCard   key={p.id} project={p} />;
+          if (p.id === 4) return <CaptainProjectCard key={p.id} project={p} />;
           if (p.id === 5) return <ScanDineProjectCard key={p.id} project={p} />;
           return <ProjectCard key={p.id} project={p} />;
         })}

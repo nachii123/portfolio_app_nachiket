@@ -1,0 +1,75 @@
+.nubae-gallery {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  padding: 10px 0 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(90, 80, 70, 0.35) transparent;
+  user-select: none;
+}
+
+.nubae-gallery:active {
+  cursor: grabbing;
+}
+
+.nubae-gallery::-webkit-scrollbar {
+  height: 8px;
+}
+
+.nubae-gallery::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nubae-gallery::-webkit-scrollbar-thumb {
+  background: rgba(90, 80, 70, 0.35);
+  border-radius: 999px;
+}
+
+.nubae-shot {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #f7f4ee;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: clamp(280px, 42vw, 460px);
+  height: auto;
+  aspect-ratio: auto;
+}
+
+.nubae-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: top center;
+  pointer-events: none;
+}
+
+.nubae-shot figcaption {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: #2a2a2a;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 768px) {
+  .nubae-shot {
+    width: clamp(240px, 70vw, 360px);
+  }
+}
